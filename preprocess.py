@@ -3,7 +3,7 @@ import os
 import sys
 from progress.bar import Bar
 import utils
-from .processor import encode_midi
+from processor import encode_midi
 
 
 def preprocess_midi(path, aug):
