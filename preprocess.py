@@ -19,7 +19,7 @@ def preprocess_midi_files_under(midi_root, save_dir, aug):
         print(' ', end='[{}]'.format(path), flush=True)
 
         try:
-            data = preprocess_midi(path, aug)
+            batch = preprocess_midi(path, aug)
         except KeyboardInterrupt:
             print(' Abort')
             return
@@ -27,17 +27,18 @@ def preprocess_midi_files_under(midi_root, save_dir, aug):
             print('EOF Error')
             return
 
-        with open('{}/{}.pickle'.format(save_dir, path.split('/')[-1]), 'wb') as f:
-            pickle.dump(data, f)
+        for idx, data in batch.items():
+            with open('{}/{}-{}.pickle'.format(save_dir, path.split('/')[-1], idx), 'wb') as f:
+                pickle.dump(data, f)
 
 
 if __name__ == '__main__':
     if sys.argv[3] == "aug":
-        aug = True
+        a = True
     else:
-        aug = False
+        a = False
     preprocess_midi_files_under(
         midi_root=sys.argv[1],
         save_dir=sys.argv[2],
-        aug=aug
+        aug=a
     )
