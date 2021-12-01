@@ -66,8 +66,8 @@ print('| Summary - Device Info : {}'.format(torch.cuda.device))
 
 # define tensorboard writer
 current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-train_log_dir = 'logs/'+config.experiment+'/'+current_time+'/train'
-eval_log_dir = 'logs/'+config.experiment+'/'+current_time+'/eval'
+train_log_dir = config.log_dir + 'logs/'+config.experiment+'/'+current_time+'/train'
+eval_log_dir = config.log_dir + 'logs/'+config.experiment+'/'+current_time+'/eval'
 
 train_summary_writer = SummaryWriter(train_log_dir)
 eval_summary_writer = SummaryWriter(eval_log_dir)
