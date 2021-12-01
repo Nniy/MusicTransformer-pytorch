@@ -90,11 +90,17 @@ class Event:
             return {'type': 'velocity', 'value': valid_value}
 
 
-def _divide_note(notes):
+def _divide_note(notes, aug):
     result_array = []
     notes.sort(key=lambda x: x.start)
-    for p in [-3, -2, -1, 0, 1, 2, 3]:
-        for t in [0.95, 0.975, 1.0, 1.025, 1.05]:
+    if aug:
+        ps = [-3, -2, -1, 0, 1, 2, 3]
+        ts = [0.95, 0.975, 1.0, 1.025, 1.05]
+    else:
+        ps = [0]
+        ts = [1.0]
+    for p in ps:
+        for t in ts:
             seq = []
             for note in notes:
                 on = SplitNote('note_on', note.start * t, note.pitch + p, note.velocity)
@@ -207,7 +213,7 @@ def _note_preprocess(susteins, notes):
     return note_stream
 
 
-def encode_midi(file_path):
+def encode_midi(file_path, aug=False):
     notes = []
     mid = pretty_midi.PrettyMIDI(midi_file=file_path)
 
@@ -219,7 +225,7 @@ def encode_midi(file_path):
         notes += _note_preprocess(ctrls, inst_notes)
 
     res = {}
-    dnotes_list = _divide_note(notes)
+    dnotes_list = _divide_note(notes, aug)
     for idx, dnotes in enumerate(dnotes_list):
         events = []
         # print(dnotes)
