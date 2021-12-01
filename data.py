@@ -10,9 +10,9 @@ class Data:
     def __init__(self, dir_path):
         self.files = list(utils.find_files_by_extensions(dir_path, ['.pickle']))
         self.file_dict = {
-            'train': self.files[:int(len(self.files) * 0.8)],
-            'eval': self.files[int(len(self.files) * 0.8): int(len(self.files) * 0.9)],
-            'test': self.files[int(len(self.files) * 0.9):],
+            'train': list(utils.find_files_by_extensions(dir_path + '/train', ['.pickle'])),
+            'eval': list(utils.find_files_by_extensions(dir_path + '/validation', ['.pickle'])),
+            'test': list(utils.find_files_by_extensions(dir_path + '/test', ['.pickle'])),
         }
         self._seq_file_name_idx = 0
         self._seq_idx = 0
